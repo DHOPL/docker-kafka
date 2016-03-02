@@ -3,19 +3,20 @@ MAINTAINER wlu wlu@linkernetworks.com
 
 ENV REFRESHED_AT 2016.3.2
 
-ADD add-apt-repository /usr/bin
-#install openjdk and grandle
-RUN chmod +x /usr/bin/add-apt-repository && \
-	add-apt-repository ppa:cwchien/gradle && \
-	apt-get update && \
-	apt-get install -y openjdk-7-jre curl gradle git
 
-ENV	DOWNLOAD_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.1.tgz"
+#install openjdk and grandle
+RUN	apt-get update && \
+	apt-get install -y openjdk-7-jre curl git unzip wget
+
+ENV	KAFKA_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.1.tgz" \
+	GRADLE_URL="https://services.gradle.org/distributions/gradle-2.11-bin.zip"
+	
 
 # install and unzip kafka
-RUN curl -fL ${DOWNLOAD_URL} | tar zxvf - -C /usr/local
+RUN curl -fL ${KAFKA_URL} | tar zxvf - -C /usr/local && \
+	wget ${GRADLE_URL} | unzip - -d /usr/local
 
-RUN apt-get remove -y curl && \
+RUN apt-get remove -y curl git unzip && \
 	apt-get clean
 
 ENV KAFKA_VERSION=0.9.0.1 \
@@ -27,6 +28,5 @@ WORKDIR /usr/local/kafka_2.10-0.9.0.1
 #git clone kafka on mesos source
 RUN mkdir -p /root/workspace && \
 	git clone https://github.com/mesos/kafka /root/workspace
-
 #reference http://askubuntu.com/questions/175514/how-to-set-java-home-for-java
 
