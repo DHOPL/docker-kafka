@@ -1,11 +1,12 @@
 FROM ubuntu:14.04
 MAINTAINER wlu wlu@linkernetworks.com
 
-ENV REFRESHED_AT 2016.3.1
+ENV REFRESHED_AT 2016.3.2
 
-#install openjdk
-RUN apt-get update && \
-	apt-get install -y openjdk-7-jre curl
+#install openjdk and grandle
+RUN add-apt-repository ppa:cwchien/gradle && \
+	apt-get update && \
+	apt-get install -y openjdk-7-jre curl gradle git
 
 ENV	DOWNLOAD_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.1.tgz"
 
@@ -20,5 +21,10 @@ ENV KAFKA_VERSION=0.9.0.1 \
 ENV PATH=${JAVA_HOME}:$PATH
 
 WORKDIR /usr/local/kafka_2.10-0.9.0.1
+
+#git clone kafka on mesos source
+RUN mkdir -p /root/workspace && \
+	git clone https://github.com/mesos/kafka /root/workspace
+
 #reference http://askubuntu.com/questions/175514/how-to-set-java-home-for-java
 
