@@ -15,7 +15,7 @@ ENV	KAFKA_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.
 # install and unzip kafka
 RUN curl -fL ${KAFKA_URL} | tar zxvf - -C /usr/local
 
-RUN curl -fL ${GRADLE_URL} | unzip - -d /usr/local
+#RUN curl -fL ${GRADLE_URL} | unzip - -d /usr/local
 
 RUN apt-get remove -y curl git unzip && \
 	apt-get clean
