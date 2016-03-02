@@ -3,8 +3,10 @@ MAINTAINER wlu wlu@linkernetworks.com
 
 ENV REFRESHED_AT 2016.3.2
 
+ADD add-apt-repository /usr/bin
 #install openjdk and grandle
-RUN add-apt-repository ppa:cwchien/gradle && \
+RUN chmod +x /usr/bin/add-apt-repository && \
+	add-apt-repository ppa:cwchien/gradle && \
 	apt-get update && \
 	apt-get install -y openjdk-7-jre curl gradle git
 
