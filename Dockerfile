@@ -13,16 +13,18 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E56151BF && \
 
 #install jdk,mesos
 RUN	apt-get update && \
-	apt-get install -yq openjdk-7-jre curl libc6 git unzip mesos=0.26.0-0.2.145.ubuntu1404
+	apt-get install -yq openjdk-7-jre curl libc6 mesos=0.26.0-0.2.145.ubuntu1404
 
-#ENV	KAFKA_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.1.tgz"
-# install and unzip kafka
-#RUN curl ${KAFKA_URL}
+ENV	KAFKA_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.1.tgz"
 
-RUN	apt-get clean
+# install and untar kafka
+RUN curl -fL ${KAFKA_URL} | tar zxvf - -C /opt/kafka-mesos
 
-#ENV KAFKA_VERSION=0.9.0.1 \
-ENV	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+RUN	apt-get remove && \
+	apt-get clean
+
+ENV KAFKA_VERSION=0.9.0.1 \
+	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 ENV PATH=${JAVA_HOME}:$PATH
 
 WORKDIR /opt/kafka-mesos
