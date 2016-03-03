@@ -1,32 +1,30 @@
 FROM ubuntu:14.04
 MAINTAINER wlu wlu@linkernetworks.com
 
-ENV REFRESHED_AT 2016.3.2
+ENV REFRESHED_AT 2016.3.3
 
-#install openjdk and grandle
+#copy files
+RUN mkdir -p /opt/kafka-mesos
+COPY build/* /opt/kafka-mesos
+
+#install add mesos repo
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E56151BF && \
+  	echo deb http://repos.mesosphere.io/ubuntu trusty main > /etc/apt/sources.list.d/mesosphere.list
+
+#install jdk,mesos
 RUN	apt-get update && \
-	apt-get install -y openjdk-7-jre curl git unzip wget
+	apt-get install -yq openjdk-7-jre curl libc6 git unzip mesos=0.26.0-0.2.145.ubuntu1404
 
-ENV	KAFKA_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.1.tgz" \
-	GRADLE_URL="https://services.gradle.org/distributions/gradle-2.11-bin.zip"
-	
-
+#ENV	KAFKA_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.1.tgz"
 # install and unzip kafka
-RUN curl ${KAFKA_URL}
+#RUN curl ${KAFKA_URL}
 
-RUN curl ${GRADLE_URL}
-
-#RUN apt-get remove -y curl git unzip && \
 RUN	apt-get clean
 
-ENV KAFKA_VERSION=0.9.0.1 \
-	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+#ENV KAFKA_VERSION=0.9.0.1 \
+ENV	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 ENV PATH=${JAVA_HOME}:$PATH
 
-#WORKDIR /usr/local/kafka_2.10-0.9.0.1
+WORKDIR /opt/kafka-mesos
 
-#git clone kafka on mesos source
-RUN mkdir -p /root/workspace && \
-	git clone https://github.com/mesos/kafka /root/workspace
-#reference http://askubuntu.com/questions/175514/how-to-set-java-home-for-java
-
+EXPOSE 7000
