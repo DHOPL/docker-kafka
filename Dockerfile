@@ -5,7 +5,7 @@ ENV REFRESHED_AT 2016.3.3
 
 #copy files
 RUN mkdir -p /opt/kafka-mesos
-COPY build/* /opt/kafka-mesos
+COPY build/* /opt/kafka-mesos/
 
 #install add mesos repo
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E56151BF && \
