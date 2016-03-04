@@ -27,7 +27,7 @@ ENV KAFKA_VERSION=0.9.0.1 \
 	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 ENV PATH=${JAVA_HOME}:$PATH
 
-RUN apt-get install supervisor
+RUN apt-get install -yq supervisor
 ADD supervisord.conf /etc/supervisord.conf
 
 WORKDIR /opt/kafka-mesos
