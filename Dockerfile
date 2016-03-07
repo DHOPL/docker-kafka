@@ -19,7 +19,7 @@ ENV	KAFKA_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.
 
 # install and untar kafka
 #RUN curl -fL ${KAFKA_URL} | tar zxvf - -C /opt/kafka-mesos
-RUN curl ${KAFKA_URL} -O /opt/kafka-mesos
+RUN cd /opt/kafka-mesos && curl ${KAFKA_URL}
 
 RUN	apt-get remove && \
 	apt-get clean
@@ -27,7 +27,7 @@ RUN	apt-get remove && \
 ENV KAFKA_VERSION=0.9.0.1 \
 	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 \
 	MESOS_NATIVE_JAVA_LIBRARY=/usr/lib/libmesos.so \
-	LIBPROCESS_IP=192.168.10.2  #this ip should be change in container
+	LIBPROCESS_IP=192.168.10.2
 ENV PATH=${JAVA_HOME}:$PATH
 
 RUN apt-get install -yq supervisor
