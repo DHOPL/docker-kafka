@@ -25,7 +25,9 @@ RUN	apt-get remove && \
 	apt-get clean
 
 ENV KAFKA_VERSION=0.9.0.1 \
-	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 \
+	MESOS_NATIVE_JAVA_LIBRARY=/usr/lib/libmesos.so \
+	LIBPROCESS_IP=192.168.10.2  #this ip should be change in container
 ENV PATH=${JAVA_HOME}:$PATH
 
 RUN apt-get install -yq supervisor
