@@ -36,6 +36,9 @@ ADD supervisord.conf /etc/supervisord.conf
 
 WORKDIR /opt/kafka-mesos
 
+#solve error "No value for $TERM and no -T specified" in usage scenario
+ENV TERM=linux
+
 EXPOSE 7000
 
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
