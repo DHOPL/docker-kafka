@@ -19,7 +19,7 @@ ENV	KAFKA_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.
 
 # install and untar kafka
 #RUN curl -fL ${KAFKA_URL} | tar zxvf - -C /opt/kafka-mesos
-RUN curl -O /opt/kafka-mesos ${KAFKA_URL} 
+RUN curl ${KAFKA_URL} -O /opt/kafka-mesos
 
 RUN	apt-get remove && \
 	apt-get clean
