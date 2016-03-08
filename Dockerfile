@@ -1,11 +1,13 @@
 FROM ubuntu:14.04
 MAINTAINER wlu wlu@linkernetworks.com
 
-ENV REFRESHED_AT 2016.3.3
+ENV REFRESHED_AT 2016.3.7
 
 #copy files
-RUN mkdir -p /opt/kafka-mesos
+RUN mkdir -p /opt/kafka-mesos && \
+	ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 COPY build/* /opt/kafka-mesos/
+RUN ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 #install add mesos repo
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E56151BF && \
@@ -17,27 +19,22 @@ RUN	apt-get update && \
 
 ENV	KAFKA_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.1.tgz"
 
-# install and untar kafka
-#RUN curl -fL ${KAFKA_URL} | tar zxvf - -C /opt/kafka-mesos
 #RUN cd /opt/kafka-mesos && curl ${KAFKA_URL}
 RUN curl ${KAFKA_URL} -o /opt/kafka-mesos/kafka_2.10-0.9.0.1.tgz
-
-RUN	apt-get remove && \
-	apt-get clean
 
 ENV KAFKA_VERSION=0.9.0.1 \
 	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 \
 	MESOS_NATIVE_JAVA_LIBRARY=/usr/lib/libmesos.so \
-	LIBPROCESS_IP=192.168.10.2
+	LIBPROCESS_IP=192.168.10.2 \
+	TERM=linux
 ENV PATH=${JAVA_HOME}:$PATH
 
-RUN apt-get install -yq supervisor
+RUN apt-get install -yq supervisor && \
+	apt-get clean
+
 ADD supervisord.conf /etc/supervisord.conf
 
 WORKDIR /opt/kafka-mesos
-
-#solve error "No value for $TERM and no -T specified" in usage scenario
-ENV TERM=linux
 
 EXPOSE 7000
 
