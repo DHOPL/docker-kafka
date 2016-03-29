@@ -5,9 +5,8 @@ ENV REFRESHED_AT 2016.3.7
 
 #copy files
 RUN mkdir -p /opt/kafka-mesos && \
-	ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+		ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 COPY build/* /opt/kafka-mesos/
-RUN ln -f -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 #install add mesos repo
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv E56151BF && \
