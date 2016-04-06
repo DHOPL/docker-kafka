@@ -22,10 +22,11 @@ ENV	KAFKA_URL="http://mirrors.hust.edu.cn/apache/kafka/0.9.0.1/kafka_2.10-0.9.0.
 RUN curl ${KAFKA_URL} -o /opt/kafka-mesos/kafka_2.10-0.9.0.1.tgz
 
 ENV KAFKA_VERSION=0.9.0.1 \
-	JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 \
-	MESOS_NATIVE_JAVA_LIBRARY=/usr/lib/libmesos.so \
-	LIBPROCESS_IP=192.168.10.132 \
-	TERM=linux
+		JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64 \
+		MESOS_NATIVE_JAVA_LIBRARY=/usr/lib/libmesos.so \
+		LIBPROCESS_IP=192.168.10.132 \
+		TERM=linux
+		
 ENV PATH=${JAVA_HOME}:$PATH
 
 RUN apt-get install -yq supervisor && \
